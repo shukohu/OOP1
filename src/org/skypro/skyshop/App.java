@@ -1,28 +1,31 @@
 package org.skypro.skyshop;
 
 import org.skypro.skyshop.product.Product;
+import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.basket.ProductBasket;
+import org.skypro.skyshop.product.DiscountedProduct;
+import org.skypro.skyshop.product.FixPriceProduct;
 
 public class App {
     public static void main(String[] args) {
         ProductBasket basket = new ProductBasket();
 
-        Product pizza = new Product("Пицца", 350);
-        Product juice = new Product("Сок", 70);
-        Product pie = new Product("Пирог", 74);
-        Product sauce = new Product("Соус", 20);
-        Product tea = new Product("Чай", 58);
-        Product sushi = new Product("Суши", 1200);
+        Product FixePricePizza = new FixPriceProduct("Пицца");
+        Product SimpleProductJuice = new SimpleProduct("Сок", 70);
+        Product DiscountedPie = new DiscountedProduct("Пирог", 74, 5);
+        Product SimpleProductSauce = new SimpleProduct("Соус", 20);
+        Product SimpleProductTea = new SimpleProduct("Чай", 58);
+        Product SimpleProductSushi = new SimpleProduct("Суши", 1200);
 
         // 1 Добавление продукта в корзину.
-        basket.addProduct(pizza);
-        basket.addProduct(juice);
-        basket.addProduct(pie);
-        basket.addProduct(sauce);
-        basket.addProduct(tea);
+        basket.addProduct(FixePricePizza);
+        basket.addProduct(SimpleProductJuice);
+        basket.addProduct(DiscountedPie);
+        basket.addProduct(SimpleProductSauce);
+        basket.addProduct(SimpleProductTea);
 
         // 2 Добавление продукта в заполненную корзину, в которой нет свободного места.
-        basket.addProduct(new Product("Суши", 1250));
+        basket.addProduct(new SimpleProduct("Суши", 1250));
 
         // 3 Печать содержимого корзины с несколькими товарами
         basket.printBasketContents();
