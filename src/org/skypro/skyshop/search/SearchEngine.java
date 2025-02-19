@@ -32,4 +32,34 @@ public class SearchEngine {
         }
         return results;
     }
+
+    public Searchable findBestMatch(String search) throws BestResultNotFound {
+        Searchable bestMatch = null;
+        int maxCount = 0;
+
+        for (Searchable item : searchableItems) {
+            if (item != null) {
+                int count = countOccurences(item.getSearchTerm(), search);
+                if (count > maxCount) {
+                    maxCount = count;
+                    bestMatch = item;
+                }
+            }
+        }
+        if (bestMatch == null) {
+            throw new BestResultNotFound("Не найдено подходящих результатов.");
+        }
+        return bestMatch;
+    }
+
+    private int countOccurences(String str, String substring) {
+        int count = 0;
+        int index = 0;
+
+        while ((index = str.toLowerCase().indexOf(substring.toLowerCase(), index)) != -1) {
+            count++;
+            index += substring.length();
+        }
+        return count;
+    }
 }
