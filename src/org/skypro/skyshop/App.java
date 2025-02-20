@@ -12,6 +12,7 @@ import org.skypro.skyshop.search.Searchable;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 
 public class App {
@@ -71,12 +72,12 @@ public class App {
         searchEngine.add(article2);
 
         System.out.println("Результат поиска для 'пиццы':");
-        List<Searchable> searchResults = searchEngine.search("Пицца");
+        Map<String, Searchable> searchResults = searchEngine.search("Пицца");
         System.out.println("Найденные продукты: " + searchResults);
 
         System.out.println("Результат поиска для 'чая':");
-        List<Searchable> searchResults2 = searchEngine.search("Чай");
-        System.out.println("Найденный продукты: " + searchResults2);
+        Map<String, Searchable> searchResults2 = searchEngine.search("Чай");
+        System.out.println("Найденные продукты: " + searchResults2);
 
         // Неправильные продукты
         try {

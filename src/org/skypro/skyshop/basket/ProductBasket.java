@@ -2,34 +2,22 @@ package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.product.Product;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class ProductBasket {
-    private final List<Product> products;
+    private final Map<String, List<Product>> products;
 
     public ProductBasket() {
-        this.products = new ArrayList<>();
+        this.products = new HashMap<>();
     }
 
     public void addProduct(Product product) {
-        products.add(product);
+        products.computeIfAbsent(product.getName(), k -> new ArrayList<>()).add(product);
     }
 
     public List<Product> removeProductByName(String name) {
-        List<Product> removedProducts = new ArrayList<>();
-        Iterator<Product> iterator = products.iterator();
-
-        while (iterator.hasNext()) {
-            Product product = iterator.next();
-            if (product.getName().equalsIgnoreCase(name)) {
-                removedProducts.add(product);
-                iterator.remove();
-            }
-        }
-
-        return removedProducts;
+        List<Product> removedProducts = products.remove(name);
+        return removedProducts != null ? removedProducts : new ArrayList<>();
     }
 
     public void printBasket() {
@@ -37,8 +25,10 @@ public class ProductBasket {
             System.out.println("Корзина пуста.");
         } else {
             System.out.println("Содержимое корзины:");
-            for (Product product : products) {
-                System.out.println(product);
+            for (List<Product> productList : products.values()) {
+                for (Product product : productList) {
+                    System.out.println(product);
+                }
             }
         }
     }

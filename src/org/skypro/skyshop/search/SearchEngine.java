@@ -1,25 +1,24 @@
 package org.skypro.skyshop.search;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class SearchEngine {
-    private final List<Searchable> searchableItems;
+    private final Map<String, Searchable> searchableItems;
 
     public SearchEngine() {
-        this.searchableItems = new ArrayList<>();
+        this.searchableItems = new HashMap<>();
     }
 
     public void add(Searchable item) {
-        searchableItems.add(item);
+        searchableItems.put(item.getName(), item);
     }
 
-    public List<Searchable> search(String term) {
-        List<Searchable> results = new ArrayList<>();
+    public Map<String, Searchable> search(String term) {
+        Map<String, Searchable> results = new TreeMap<>();
 
-        for (Searchable item : searchableItems) {
+        for (Searchable item : searchableItems.values()) {
             if (item.getSearchTerm().toLowerCase().contains(term.toLowerCase())) {
-                results.add(item);
+                results.put(item.getName(),item);
             }
         }
 
@@ -30,7 +29,7 @@ public class SearchEngine {
         Searchable bestMatch = null;
         int maxCount = 0;
 
-        for (Searchable item : searchableItems) {
+        for (Searchable item : searchableItems.values()) {
             if (item != null) {
                 int count = countOccurences(item.getSearchTerm(), search);
                 if (count > maxCount) {
