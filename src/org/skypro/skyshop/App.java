@@ -11,12 +11,13 @@ import org.skypro.skyshop.search.SearchEngine;
 import org.skypro.skyshop.search.Searchable;
 
 import java.util.Arrays;
+import java.util.List;
 
 
 public class App {
     public static void main(String[] args) {
         ProductBasket basket = new ProductBasket();
-        SearchEngine searchEngine = new SearchEngine(10);
+        SearchEngine searchEngine = new SearchEngine();
 
 
         Product product1 = new FixPriceProduct("Пицца");
@@ -38,28 +39,28 @@ public class App {
         searchEngine.add(new SimpleProduct("Суши", 1250));
 
         // 3 Печать содержимого корзины с несколькими товарами
-        basket.printBasketContents();
+        basket.printBasket();
 
         // 4 Получение стоимости корзины с несколькими товарами.
-        System.out.println("Стоимость корзины: " + basket.getTotalPrice());
+        System.out.println("Стоимость корзины: " + basket.getClass());
 
         // 5 Поиск товара, который есть в корзине.
-        System.out.println("Содержит корзина Пицца: " + basket.containsProduct("Пицца"));
+        System.out.println("Содержит корзина Пицца: " + basket.addProduct("Пицца"));
 
         // 6 Поиск товара, которого нет в корзине.
-        System.out.println("Содержит корзина Суши: " + basket.containsProduct("Суши"));
+        System.out.println("Содержит корзина Суши: " + basket.addProduct("Суши"));
 
         // 7 Очистка корзины.
-        basket.clearBasket();
+        basket.printBasket();
 
         // 8 Печать содержимого пустой корзины.
-        basket.printBasketContents();
+        basket.printBasket();
 
         // 9 Получение стоимости пустой корзины.
-        System.out.println("Стоимость пустой корзины: " + basket.getTotalPrice());
+        System.out.println("Стоимость пустой корзины: " + basket.getClass());
 
         // 10 Поиск товара по имени в пустой корзине.
-        System.out.println("Содержит корзина Пицца: " + basket.containsProduct("Пицца"));
+        System.out.println("Содержит корзина Пицца: " + basket.addProduct("Пицца"));
 
         // Статьи
         Article article1 = new Article("Статья о пицце: ", "Пицца - это быстро и вкусно.");
@@ -70,10 +71,12 @@ public class App {
         searchEngine.add(article2);
 
         System.out.println("Результат поиска для 'пиццы':");
-        System.out.println(Arrays.toString(searchEngine.search("Пицца")));
+        List<Searchable> searchResults = searchEngine.search("Пицца");
+        System.out.println("Найденные продукты: " + searchResults);
 
         System.out.println("Результат поиска для 'чая':");
-        System.out.println(Arrays.toString(searchEngine.search("Чай")));
+        List<Searchable> searchResults2 = searchEngine.search("Чай");
+        System.out.println("Найденный продукты: " + searchResults2);
 
         // Неправильные продукты
         try {
@@ -102,5 +105,16 @@ public class App {
             System.out.println("Ошибка: " + e.getMessage());
 
         }
+        System.out.println("Удаление продукта 'Пицца' :");
+        List<Product> removedProducts = basket.removeProductByName("Пицца");
+        System.out.println("Удаленные продукты: " + removedProducts);
+        basket.printBasket();
+
+        System.out.println("\nУдаление продукта 'Кофе':");
+        List<Product> removedProducts2 = basket.removeProductByName("Кофе");
+        if (removedProducts2.isEmpty()) {
+            System.out.println("Список пуст.");
+        }
+        basket.printBasket();
     }
 }

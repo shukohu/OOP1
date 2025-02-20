@@ -1,35 +1,28 @@
 package org.skypro.skyshop.search;
 
-public class SearchEngine {
-    public final Searchable[] searchableItems;
-    private int count;
+import java.util.ArrayList;
+import java.util.List;
 
-    public SearchEngine(int size) {
-        this.searchableItems = new Searchable[size];
-        this.count = 0;
+public class SearchEngine {
+    private final List<Searchable> searchableItems;
+
+    public SearchEngine() {
+        this.searchableItems = new ArrayList<>();
     }
 
     public void add(Searchable item) {
-        if (count < searchableItems.length) {
-            searchableItems[count] = item;
-            count++;
-        }
+        searchableItems.add(item);
     }
 
-    public Searchable[] search(String term) {
-        Searchable[] results = new Searchable[5];
-        int resultCount = 0;
+    public List<Searchable> search(String term) {
+        List<Searchable> results = new ArrayList<>();
 
         for (Searchable item : searchableItems) {
-            if (item != null && item.getSearchTerm().toLowerCase().contains(term.toLowerCase())) {
-                if (resultCount < 5) {
-                    results[resultCount] = item;
-                    resultCount++;
-                } else {
-                    break;
-                }
+            if (item.getSearchTerm().toLowerCase().contains(term.toLowerCase())) {
+                results.add(item);
             }
         }
+
         return results;
     }
 
@@ -47,7 +40,7 @@ public class SearchEngine {
             }
         }
         if (bestMatch == null) {
-            throw new BestResultNotFound("Не найдено подходящих результатов.");
+            throw new BestResultNotFound("Не найдено подходящих результатов для запроса");
         }
         return bestMatch;
     }
@@ -60,6 +53,9 @@ public class SearchEngine {
             count++;
             index += substring.length();
         }
+
         return count;
     }
+
 }
+
