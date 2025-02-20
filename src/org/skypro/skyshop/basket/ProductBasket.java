@@ -2,62 +2,39 @@ package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.product.Product;
 
+import java.util.*;
+
 public class ProductBasket {
-    private Product[] products;
-    private int ProductCount;
+    private final Map<String, List<Product>> products;
 
     public ProductBasket() {
-        this.products = new Product[5];
-        this.ProductCount = 0;
+        this.products = new HashMap<>();
     }
 
     public void addProduct(Product product) {
-        if (ProductCount < products.length) {
-            products[ProductCount] = product;
-            ProductCount++;
+        products.computeIfAbsent(product.getName(), k -> new ArrayList<>()).add(product);
+    }
+
+    public List<Product> removeProductByName(String name) {
+        List<Product> removedProducts = products.remove(name);
+        return removedProducts != null ? removedProducts : new ArrayList<>();
+    }
+
+    public void printBasket() {
+        if (products.isEmpty()) {
+            System.out.println("Корзина пуста.");
         } else {
-            System.out.println("Невозможно добавить продукт");
-        }
-    }
-
-    public int getTotalPrice() {
-        int total = 0;
-        for (Product product : products) {
-            if (product != null) {
-                total += product.getPrice();
-
+            System.out.println("Содержимое корзины:");
+            for (List<Product> productList : products.values()) {
+                for (Product product : productList) {
+                    System.out.println(product);
+                }
             }
         }
-        return total;
     }
 
-    public void printBasketContents() {
-        if (ProductCount == 0) {
-            System.out.println("В корзине пусто");
-            return;
-        }
-        for (Product product : products) {
-            if (product != null) {
-                System.out.println(product.getName() + ": " + product.getPrice());
-            }
-        }
-        System.out.println("Итого: " + getTotalPrice());
-    }
-
-    public boolean containsProduct(String name) {
-        for (Product product : products) {
-            if (product != null && product.getName().equals(name)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public void clearBasket() {
-        for (int i = 0; i < products.length; i++) {
-            products[i] = null;
-        }
-        ProductCount = 0;
+    public String addProduct(String Pizza) {
+        return null;
     }
 }
 
