@@ -1,6 +1,13 @@
 package org.skypro.skyshop.search;
 
-import java.util.*;
+import org.skypro.skyshop.article.Article;
+
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class SearchEngine {
     private final Set<Searchable> searchableItems;
@@ -14,15 +21,12 @@ public class SearchEngine {
     }
 
     public Set<Searchable> search(String term) {
-        Set<Searchable> results = new TreeSet<>(new SearchableComparator());
-
-        for (Searchable item : searchableItems) {
-            if (item.getSearchTerm().toLowerCase().contains(term.toLowerCase())) {
-                results.add(item);
-            }
+        if (searchableItems == null) {
+            return new TreeSet<>(new SearchableComparator());
         }
-
-        return results;
+        Supplier<TreeSet<Searchable>> treeSetSupplier = () -> new TreeSet<>(new SearchableComparator());
+        return searchableItems.stream().filter(item -> item.getSearchTerm().toLowerCase().contains(term.toLowerCase()) || (item instanceof Article && ((Article) item).getText().toLowerCase().contains(term.toLowerCase()))).
+                collect(Collectors.toCollection(treeSetSupplier));
     }
 
     private static class SearchableComparator implements Comparator<Searchable> {
@@ -32,7 +36,11 @@ public class SearchEngine {
             if (lengthCompare != 0) {
                 return -lengthCompare;
             }
-            return o1.getName().compareTo(o2.getName());
+            int nameCompare = o1.getName().compareTo(o2.getName());
+            if (nameCompare != 0) {
+                return nameCompare;
+            }
+            return Integer.compare(o1.hashCode(), o2.hashCode());
         }
     }
 

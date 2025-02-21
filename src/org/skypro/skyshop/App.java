@@ -10,9 +10,6 @@ import org.skypro.skyshop.search.BestResultNotFound;
 import org.skypro.skyshop.search.SearchEngine;
 import org.skypro.skyshop.search.Searchable;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 
@@ -29,56 +26,55 @@ public class App {
         Product product5 = new SimpleProduct("Чай", 58);
         Product product6 = new SimpleProduct("Суши", 1200);
 
-        // 1 Добавление продукта в корзину.
+        //  Добавление продукта в корзину.
 
         searchEngine.add(product1);
-        searchEngine.add(product2);
-        searchEngine.add(product3);
-        searchEngine.add(product4);
-        searchEngine.add(product5);
+        basket.addProduct(product1);
 
-        // 2 Добавление продукта в заполненную корзину, в которой нет свободного места.
+        searchEngine.add(product2);
+        basket.addProduct(product2);
+
+        searchEngine.add(product3);
+        basket.addProduct(product3);
+
+        searchEngine.add(product4);
+        basket.addProduct(product4);
+
+        searchEngine.add(product5);
+        basket.addProduct(product5);
+
+        //  Добавление продукта в заполненную корзину, в которой нет свободного места.
         searchEngine.add(new SimpleProduct("Суши", 1250));
 
-        // 3 Печать содержимого корзины с несколькими товарами
+
         basket.printBasket();
+        System.out.println("Стоимость корзины: " + basket.getTotalPrice());
 
-        // 4 Получение стоимости корзины с несколькими товарами.
-        System.out.println("Стоимость корзины: " + basket.getClass());
-
-        // 5 Поиск товара, который есть в корзине.
-        System.out.println("Содержит корзина Пицца: " + basket.addProduct("Пицца"));
-
-        // 6 Поиск товара, которого нет в корзине.
-        System.out.println("Содержит корзина Суши: " + basket.addProduct("Суши"));
-
-        // 7 Очистка корзины.
+        //  Очистка корзины.
+        basket.clear();
+        System.out.println("Корзина очищена.");
         basket.printBasket();
+        System.out.println("Стоимость пусто корзины: " + basket.getTotalPrice());
 
-        // 8 Печать содержимого пустой корзины.
-        basket.printBasket();
-
-        // 9 Получение стоимости пустой корзины.
-        System.out.println("Стоимость пустой корзины: " + basket.getClass());
-
-        // 10 Поиск товара по имени в пустой корзине.
-        System.out.println("Содержит корзина Пицца: " + basket.addProduct("Пицца"));
 
         // Статьи
         Article article1 = new Article("Статья о пицце: ", "Пицца - это быстро и вкусно.");
         Article article2 = new Article("Статья о чае: ", "Чай содержит различные соединения, которые могут оказывать успокаивающее воздействие на организм.");
-
-        // Статьи для поиска
         searchEngine.add(article1);
         searchEngine.add(article2);
 
-        System.out.println("Результат поиска для 'пиццы':");
-        Set<Searchable> searchResults = searchEngine.search("Пицца");
-        System.out.println("Найденные продукты: " + searchResults);
 
-        System.out.println("Результат поиска для 'чая':");
+        System.out.println("Результат поиска для 'Пицца':");
+        Set<Searchable> searchResults = searchEngine.search("Пицца");
+        System.out.println("Найденные продукты и статьи : " + searchEngine.search("Пицца"));
+
+        System.out.println("Результат поиска для 'Чай':");
         Set<Searchable> searchResults2 = searchEngine.search("Чай");
-        System.out.println("Найденные продукты: " + searchResults2);
+        System.out.println("Найденные продукты и статьи : " + searchEngine.search("Чай"));
+
+        System.out.println("\nПоиск 'Кофе':");
+        Set<Searchable> searchResults3 = searchEngine.search("Кофе");
+        System.out.println("Найденные продукты и статьи: " + searchResults3);
 
         // Неправильные продукты
         try {
@@ -96,25 +92,17 @@ public class App {
         try {
             Searchable bestMatch = searchEngine.findBestMatch("Чай");
             System.out.println("Лучший результат для 'чай': " + bestMatch.getStringRepresentation());
-        } catch (BestResultNotFound e){
+        } catch (BestResultNotFound e) {
             System.out.println("Ошибка" + e.getMessage());
 
         }
         try {
             Searchable bestMatch = searchEngine.findBestMatch("Article");
             System.out.println("Лучший результат для 'Article': " + bestMatch.getStringRepresentation());
-        } catch (BestResultNotFound e){
+        } catch (BestResultNotFound e) {
             System.out.println("Ошибка: " + e.getMessage());
 
         }
-        System.out.println("\nПоиск 'Пицца' :");
-        Set<Searchable> searchResults4 = searchEngine.search("Пицца");
-        System.out.println("Найденные продукты и статьи: " + searchResults4);
-        basket.printBasket();
-
-        System.out.println("\nПоиск 'Кофе':");
-        Set<Searchable> searchResults3 = searchEngine.search("Кофе" + searchResults);
-        System.out.println("Найденные продукты и статьи: ");
-        }
     }
+}
 

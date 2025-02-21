@@ -26,11 +26,14 @@ public class FixPriceProduct extends Product {
 
     @Override
     public boolean equals(Object o) {
-        return false;
+        if (this == o) return true;
+        if (!(o instanceof FixPriceProduct)) return false;
+        FixPriceProduct fixPriceProduct = (FixPriceProduct) o;
+        return getName().equals(fixPriceProduct.getName());
     }
 
     @Override
     public int hashCode() {
-        return 0;
+        return Objects.hash(getName());
     }
 }

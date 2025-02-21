@@ -35,11 +35,14 @@ public class DiscountedProduct extends Product {
 
     @Override
     public boolean equals(Object o) {
-        return false;
+        if (this == o) return true;
+        if (!(o instanceof DiscountedProduct)) return true;
+        DiscountedProduct discountedProduct = (DiscountedProduct) o;
+        return basePrice == discountedProduct.basePrice && discount == discountedProduct.discount && getName().equals(discountedProduct.getName());
     }
 
     @Override
     public int hashCode() {
-        return 0;
+        return Objects.hash(getName(), basePrice, discount);
     }
 }

@@ -11,8 +11,16 @@ public class ProductBasket {
         this.products = new HashMap<>();
     }
 
-    public void addProduct(Product product) {
+    public void addProduct (Product product) {
         products.computeIfAbsent(product.getName(), k -> new ArrayList<>()).add(product);
+    }
+
+    public void clear() {
+        products.clear();
+    }
+
+    public int getTotalPrice() {
+        return products.values().stream().flatMap(Collection::stream).mapToInt(Product::getPrice).sum();
     }
 
     public List<Product> removeProductByName(String name) {
@@ -20,21 +28,19 @@ public class ProductBasket {
         return removedProducts != null ? removedProducts : new ArrayList<>();
     }
 
+
     public void printBasket() {
         if (products.isEmpty()) {
-            System.out.println("Корзина пуста.");
-        } else {
-            System.out.println("Содержимое корзины:");
-            for (List<Product> productList : products.values()) {
-                for (Product product : productList) {
-                    System.out.println(product);
-                }
-            }
+            System.out.println("Корзина пуста. ");
+        }else {
+            System.out.println("Содержимое корзины: ");
+            products.values().stream().flatMap(Collection::stream).forEach(System.out::println);
+
         }
     }
 
-    public String addProduct(String Pizza) {
-        return null;
+    public long getSpecialCount() {
+        return products.values().stream().flatMap(Collection::stream).filter(Product::isSpecial).count();
     }
 }
 
