@@ -1,5 +1,7 @@
 package org.skypro.skyshop.product;
 
+import java.util.Objects;
+
 public class FixPriceProduct extends Product {
     private static final int Fix_Price_Product =450;
 
@@ -20,5 +22,15 @@ public class FixPriceProduct extends Product {
     @Override
     public String toString() {
         return getName() + ": Фиксированная цена " + Fix_Price_Product;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
     }
 }

@@ -8,5 +8,8 @@ public interface Searchable {
     default String getStringRepresentation() {
         return getName() + "- тип " + getContentType();
     }
+    boolean equals(Object o);
+
+    int hashCode();
 }
 

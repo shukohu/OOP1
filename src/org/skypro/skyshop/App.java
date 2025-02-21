@@ -13,6 +13,7 @@ import org.skypro.skyshop.search.Searchable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 public class App {
@@ -72,11 +73,11 @@ public class App {
         searchEngine.add(article2);
 
         System.out.println("Результат поиска для 'пиццы':");
-        Map<String, Searchable> searchResults = searchEngine.search("Пицца");
+        Set<Searchable> searchResults = searchEngine.search("Пицца");
         System.out.println("Найденные продукты: " + searchResults);
 
         System.out.println("Результат поиска для 'чая':");
-        Map<String, Searchable> searchResults2 = searchEngine.search("Чай");
+        Set<Searchable> searchResults2 = searchEngine.search("Чай");
         System.out.println("Найденные продукты: " + searchResults2);
 
         // Неправильные продукты
@@ -106,16 +107,14 @@ public class App {
             System.out.println("Ошибка: " + e.getMessage());
 
         }
-        System.out.println("Удаление продукта 'Пицца' :");
-        List<Product> removedProducts = basket.removeProductByName("Пицца");
-        System.out.println("Удаленные продукты: " + removedProducts);
+        System.out.println("\nПоиск 'Пицца' :");
+        Set<Searchable> searchResults4 = searchEngine.search("Пицца");
+        System.out.println("Найденные продукты и статьи: " + searchResults4);
         basket.printBasket();
 
-        System.out.println("\nУдаление продукта 'Кофе':");
-        List<Product> removedProducts2 = basket.removeProductByName("Кофе");
-        if (removedProducts2.isEmpty()) {
-            System.out.println("Список пуст.");
+        System.out.println("\nПоиск 'Кофе':");
+        Set<Searchable> searchResults3 = searchEngine.search("Кофе" + searchResults);
+        System.out.println("Найденные продукты и статьи: ");
         }
-        basket.printBasket();
     }
-}
+
