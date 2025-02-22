@@ -1,0 +1,39 @@
+package org.skypro.skyshop.product;
+
+import java.util.Objects;
+
+public class FixPriceProduct extends Product {
+    private static final int Fix_Price_Product =450;
+
+    public FixPriceProduct(String name) {
+        super(name);
+    }
+
+    @Override
+    public int getPrice() {
+        return Fix_Price_Product;
+    }
+
+    @Override
+    public boolean isSpecial() {
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return getName() + ": Фиксированная цена " + Fix_Price_Product;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof FixPriceProduct)) return false;
+        FixPriceProduct fixPriceProduct = (FixPriceProduct) o;
+        return getName().equals(fixPriceProduct.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName());
+    }
+}
