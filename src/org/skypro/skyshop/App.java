@@ -46,15 +46,14 @@ public class App {
         //  Добавление продукта в заполненную корзину, в которой нет свободного места.
         searchEngine.add(new SimpleProduct("Суши", 1250));
 
-
-        basket.printBasket();
-        System.out.println("Стоимость корзины: " + basket.getTotalPrice());
+        int totalPrice = basket.getTotalPrice();
+        System.out.println("Общая стоимость корзины: " + totalPrice);
 
         //  Очистка корзины.
         basket.clear();
         System.out.println("Корзина очищена.");
         basket.printBasket();
-        System.out.println("Стоимость пусто корзины: " + basket.getTotalPrice());
+        System.out.println("Стоимость пустой корзины: " + basket.getTotalPrice());
 
 
         // Статьи
@@ -66,11 +65,12 @@ public class App {
 
         System.out.println("Результат поиска для 'Пицца':");
         Set<Searchable> searchResults = searchEngine.search("Пицца");
-        System.out.println("Найденные продукты и статьи : " + searchEngine.search("Пицца"));
+        System.out.println("Найденные продукты и статьи : " +  searchEngine.search("Пицца"));
 
         System.out.println("Результат поиска для 'Чай':");
         Set<Searchable> searchResults2 = searchEngine.search("Чай");
         System.out.println("Найденные продукты и статьи : " + searchEngine.search("Чай"));
+
 
         System.out.println("\nПоиск 'Кофе':");
         Set<Searchable> searchResults3 = searchEngine.search("Кофе");
@@ -94,13 +94,6 @@ public class App {
             System.out.println("Лучший результат для 'чай': " + bestMatch.getStringRepresentation());
         } catch (BestResultNotFound e) {
             System.out.println("Ошибка" + e.getMessage());
-
-        }
-        try {
-            Searchable bestMatch = searchEngine.findBestMatch("Article");
-            System.out.println("Лучший результат для 'Article': " + bestMatch.getStringRepresentation());
-        } catch (BestResultNotFound e) {
-            System.out.println("Ошибка: " + e.getMessage());
 
         }
     }

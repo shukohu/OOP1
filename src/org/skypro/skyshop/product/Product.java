@@ -22,7 +22,7 @@ public abstract class Product implements Searchable {
 
     @Override
     public String getSearchTerm() {
-        return getName();
+        return name;
     }
 
     @Override

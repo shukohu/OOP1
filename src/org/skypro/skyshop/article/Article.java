@@ -35,6 +35,11 @@ public class Article implements Searchable{
     }
 
     @Override
+    public String getStringRepresentation() {
+        return title + ": " + text;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this==o) return true;
         if (!(o instanceof Article)) return false;

@@ -1,12 +1,9 @@
 package org.skypro.skyshop.search;
 
-import org.skypro.skyshop.article.Article;
-
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class SearchEngine {
@@ -21,12 +18,7 @@ public class SearchEngine {
     }
 
     public Set<Searchable> search(String term) {
-        if (searchableItems == null) {
-            return new TreeSet<>(new SearchableComparator());
-        }
-        Supplier<TreeSet<Searchable>> treeSetSupplier = () -> new TreeSet<>(new SearchableComparator());
-        return searchableItems.stream().filter(item -> item.getSearchTerm().toLowerCase().contains(term.toLowerCase()) || (item instanceof Article && ((Article) item).getText().toLowerCase().contains(term.toLowerCase()))).
-                collect(Collectors.toCollection(treeSetSupplier));
+        return searchableItems.stream().filter(item -> item.getSearchTerm().toLowerCase().contains(term.toLowerCase())).collect(Collectors.toCollection(() -> new TreeSet<>(new SearchableComparator())));
     }
 
     private static class SearchableComparator implements Comparator<Searchable> {
@@ -45,20 +37,21 @@ public class SearchEngine {
     }
 
     public Searchable findBestMatch(String search) throws BestResultNotFound {
+        if (search == null || search.trim().isEmpty()) {
+            throw new BestResultNotFound("Не найдено подходящих результатов для запроса.");
+        }
         Searchable bestMatch = null;
         int maxCount = 0;
 
         for (Searchable item : searchableItems) {
-            if (item != null) {
-                int count = countOccurrences(item.getSearchTerm(), search);
-                if (count > maxCount) {
-                    maxCount = count;
-                    bestMatch = item;
-                }
+            int count = countOccurrences(item.getSearchTerm().toLowerCase(), search.toLowerCase());
+            if (count > maxCount) {
+                maxCount = count;
+                bestMatch = item;
             }
         }
         if (bestMatch == null) {
-            throw new BestResultNotFound("Не найдено подходящих результатов для запроса");
+            throw new BestResultNotFound("Не найдено подходящих результатов для запроса.");
         }
         return bestMatch;
     }
@@ -74,6 +67,7 @@ public class SearchEngine {
 
         return count;
     }
-
 }
+
+
 
