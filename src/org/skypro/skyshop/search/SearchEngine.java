@@ -18,7 +18,6 @@ public class SearchEngine {
     }
 
     public Set<Searchable> search(String term) {
-
         return searchableItems.stream().filter(item -> item.getSearchTerm().toLowerCase().contains(term.toLowerCase())).collect(Collectors.toCollection(() -> new TreeSet<>(new SearchableComparator())));
     }
 
